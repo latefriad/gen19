@@ -500,7 +500,10 @@
       chatSend.addEventListener('click', sendMessage);
 
       // Select Optiongit
-      function selectOption(option) {
+function selectOption(option) {
+        // WhatsApp number
+        const whatsappNumber = '213779411291';
+        
         // Remove quick options after selection
         if (quickOptions) {
           quickOptions.style.display = 'none';
@@ -516,18 +519,29 @@
         setTimeout(() => {
           hideTyping();
           
-          let botResponse = '';
+let botResponse = '';
+          let redirectToWhatsapp = false;
+          let whatsappMessage = '';
+          
           if(option === 'خدمات تصميم المواقع') {
-            botResponse = 'نحن نقدم تصميم مواقع حديثة وسريعة ومتجاوبة لجميع الأجهزة. تشمل خدماتنا:\n\n✨ تصميم واجهات المستخدم\n🔧 التطوير المتجاوب\n⚡ تحسين الأداء\n📱 تجربة مستخدم متميزة';
+            botResponse = 'نحن نقدم تصميم مواقع حديثة وسريعة ومتجاوبة لجميع الأجهزة.املأ التفاصيل وسنتواصل معك قريباً!'; whatsappMessage = 'مرحباً، أرغب في الاستفسار عن خدمات تصميم المواقع'; redirectToWhatsapp = true;
           } else if(option === 'الأسعار') {
-            botResponse = 'تبدأ أسعارنا من 300$ حسب حجم المشروع واحتياجاتك:\n\n📋 موقع شخصي: 300$\n🏢 موقع شركة: 500$\n🛒 متجر إلكتروني: 800$+\n🌐 مشروع متكامل: حسب المتطلبات';
+            botResponse = 'تبدأ أسعارنا من 300$ حسب حجم المشروع واحتياجاتك.'; whatsappMessage = 'مرحباً، أرغب في معرفة الأسعار'; redirectToWhatsapp = true;
           } else if(option === 'Portfolio') {
-            botResponse = 'تفضل بتصفح أعمالنا السابقة:\n\n<a href="#services" target="_blank">شاهد مشاريعنا</a>\n\nستجد تصاميم متنوعة تلبي جميع الاحتياجات.';
+            botResponse = 'تفضل بتصفح أعمالنا السابقة في قسم Portfolio بالموقع!';
           } else if(option === 'تواصل معنا') {
-            botResponse = 'يمكنك التواصل معنا عبر:\n\n📧 الإيميل: riadlatef36@gmail.com\n📱 الهاتف: +213779411291\n💬 أو راسلنا على واتساب!';
+            botResponse = 'سنقوم بتوجيهك إلى واتساب للتواصل المباشر مع فريقنا...'; whatsappMessage = 'مرحباً، أرغب في التواصل مع فريق Gen19'; redirectToWhatsapp = true;
           }
 
           addMessage(botResponse, 'bot');
+          
+          // Redirect to WhatsApp after short delay
+          if (redirectToWhatsapp) {
+            setTimeout(() => {
+              const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+              window.open(whatsappUrl, '_blank');
+            }, 1500);
+          }
         }, 1000);
       }
 
