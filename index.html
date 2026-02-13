@@ -389,6 +389,218 @@
             <p>&copy; 2024 Gen19. All rights reserved.</p>
         </div>
     </footer>
+    <!-- Chatbot Widget - Premium -->
+    <div class="gen19-chatbot">
+      <!-- Chat Toggle Button -->
+      <button class="chat-toggle" id="chatToggle" aria-label="Toggle Chat">
+        <i class="fas fa-comment-dots chat-open-icon"></i>
+        <i class="fas fa-times chat-close-icon"></i>
+        <span class="chat-notification" id="chatNotification">1</span>
+      </button>
+      
+      <!-- Chat Container -->
+      <div class="chat-container" id="chatContainer">
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div class="chat-header-info">
+            <div class="chat-avatar">
+              <i class="fas fa-headset"></i>
+            </div>
+            <div class="chat-header-text">
+              <h3>Gen19 Support</h3>
+              <p>Online now</p>
+            </div>
+          </div>
+          <button class="chat-minimize" onclick="toggleChat()" aria-label="Minimize Chat">
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+        
+        <!-- Chat Body -->
+        <div class="chat-body" id="chatBody">
+          <!-- Welcome Message -->
+          <div class="welcome-message">
+            <h4>مرحباً! 👋</h4>
+            <p>كيف أقدر أساعدك اليوم؟</p>
+          </div>
+          
+          <!-- Bot Message -->
+          <div class="chat-message bot">
+            <div class="message-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+              <div class="message-bubble">
+                مرحباً! كيف أقدر أساعدك اليوم؟
+              </div>
+            </div>
+          </div>
+          
+          <!-- Quick Options -->
+          <div class="quick-options" id="quickOptions">
+            <button class="quick-option" onclick="selectOption('خدمات تصميم المواقع')">
+              <i class="fas fa-paint-brush"></i>
+              خدمات تصميم المواقع
+            </button>
+            <button class="quick-option" onclick="selectOption('الأسعار')">
+              <i class="fas fa-dollar-sign"></i>
+              الأسعار
+            </button>
+            <button class="quick-option" onclick="selectOption('Portfolio')">
+              <i class="fas fa-briefcase"></i>
+              Portfolio
+            </button>
+            <button class="quick-option" onclick="selectOption('تواصل معنا')">
+              <i class="fas fa-envelope"></i>
+              تواصل معنا
+            </button>
+          </div>
+        </div>
+        
+        <!-- Chat Input -->
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="chatInput" placeholder="اكتب رسالتك...">
+          <button class="chat-send" id="chatSend" aria-label="Send Message">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Chatbot Functions
+      const chatToggle = document.getElementById('chatToggle');
+      const chatContainer = document.getElementById('chatContainer');
+      const chatBody = document.getElementById('chatBody');
+      const chatInput = document.getElementById('chatInput');
+      const chatSend = document.getElementById('chatSend');
+      const quickOptions = document.getElementById('quickOptions');
+
+      // Toggle Chat
+      function toggleChat() {
+        chatContainer.classList.toggle('active');
+        chatToggle.classList.toggle('active');
+        
+        if (chatContainer.classList.contains('active')) {
+          chatInput.focus();
+        }
+      }
+
+      // Event Listeners
+      chatToggle.addEventListener('click', toggleChat);
+
+      // Send Message on Enter
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
+      });
+
+      // Send Button Click
+      chatSend.addEventListener('click', sendMessage);
+
+      // Select Optiongit
+      function selectOption(option) {
+        // Remove quick options after selection
+        if (quickOptions) {
+          quickOptions.style.display = 'none';
+        }
+
+        // Add user message
+        addMessage(option, 'user');
+
+        // Show typing indicator
+        showTyping();
+
+        // Simulate bot response delay
+        setTimeout(() => {
+          hideTyping();
+          
+          let botResponse = '';
+          if(option === 'خدمات تصميم المواقع') {
+            botResponse = 'نحن نقدم تصميم مواقع حديثة وسريعة ومتجاوبة لجميع الأجهزة. تشمل خدماتنا:\n\n✨ تصميم واجهات المستخدم\n🔧 التطوير المتجاوب\n⚡ تحسين الأداء\n📱 تجربة مستخدم متميزة';
+          } else if(option === 'الأسعار') {
+            botResponse = 'تبدأ أسعارنا من 300$ حسب حجم المشروع واحتياجاتك:\n\n📋 موقع شخصي: 300$\n🏢 موقع شركة: 500$\n🛒 متجر إلكتروني: 800$+\n🌐 مشروع متكامل: حسب المتطلبات';
+          } else if(option === 'Portfolio') {
+            botResponse = 'تفضل بتصفح أعمالنا السابقة:\n\n<a href="#services" target="_blank">شاهد مشاريعنا</a>\n\nستجد تصاميم متنوعة تلبي جميع الاحتياجات.';
+          } else if(option === 'تواصل معنا') {
+            botResponse = 'يمكنك التواصل معنا عبر:\n\n📧 الإيميل: riadlatef36@gmail.com\n📱 الهاتف: +213779411291\n💬 أو راسلنا على واتساب!';
+          }
+
+          addMessage(botResponse, 'bot');
+        }, 1000);
+      }
+
+      // Add Message to Chat
+      function addMessage(content, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('chat-message', sender);
+        
+        const avatarIcon = sender === 'bot' ? 'fa-robot' : 'fa-user';
+        
+        messageDiv.innerHTML = `
+          <div class="message-avatar">
+            <i class="fas ${avatarIcon}"></i>
+          </div>
+          <div class="message-content">
+            <div class="message-bubble">${content}</div>
+          </div>
+        `;
+        
+        chatBody.appendChild(messageDiv);
+        scrollToBottom();
+      }
+
+      // Show Typing Indicator
+      function showTyping() {
+        const typingDiv = document.createElement('div');
+        typingDiv.classList.add('chat-message', 'bot', 'typing-indicator');
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+          <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        `;
+        
+        chatBody.appendChild(typingDiv);
+        scrollToBottom();
+      }
+
+      // Hide Typing Indicator
+      function hideTyping() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+          typingIndicator.remove();
+        }
+      }
+
+      // Send Message Function
+      function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message) {
+          addMessage(message, 'user');
+          chatInput.value = '';
+          
+          // Simulate bot response
+          showTyping();
+          setTimeout(() => {
+            hideTyping();
+            addMessage('شكراً لرسالتك! فريقنا سيتواصل معك قريباً. 💬', 'bot');
+          }, 1000);
+        }
+      }
+
+      // Scroll to Bottom
+      function scrollToBottom() {
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    </script>
+
 
     <script src="script.js"></script>
 </body>
