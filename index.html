@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Animated Background -->
@@ -94,6 +93,7 @@
             <h2 class="section-title animate-slideUp">Premium <span class="gradient-text">Services</span></h2>
             <p class="section-subtitle animate-fadeIn">We deliver cutting-edge web solutions tailored to your vision</p>
         </div>
+        
         
         <div class="services-grid">
             <div class="service-card animate-on-scroll" data-delay="0.1">
@@ -252,32 +252,27 @@
         </div>
     </section>
   <!-- Section 3_1: Contact form -->
-<section class="contact-form">
-  <h2>Start Your <span class="gradient-text">Project</span></h2>
+ <section class="contact-form">
+        <h2>Start Your <span class="gradient-text">Project</span></h2>
 
-  <form action="YOUR_GOOGLE_FORM_LINK" method="POST" data-netlify="true">
+        <form id="leadForm">
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <input type="tel" id="nember" name="nember" placeholder="Your Number" required>
 
-    <input type="text" name="name" placeholder="Your Name" required>
-        <input type="text" name="nember" placeholder="your nember" required>
+            <select id="websiteType" name="website-type">
+                <option value="">Select Website Type</option>
+                <option value="Business Website">Business Website</option>
+                <option value="E-commerce Store">E-commerce Store</option>
+                <option value="Portfolio">Portfolio</option>
+                <option value="Landing Page">Landing Page</option>
+            </select>
 
+            <input type="text" id="budget" name="budget" placeholder="Project Budget (optional)">
 
-    <input type="email" name="email" placeholder="Email Address" required>
+            <textarea id="message" name="message" placeholder="Describe your project..."></textarea>
 
-    <select name="website-type">
-      <option>Select Website Type</option>
-      <option>Business Website</option>
-      <option>E-commerce Store</option>
-      <option>Portfolio</option>
-      <option>Landing Page</option>
-    </select>
-
-    <input type="text" name="budget" placeholder="Project Budget (optional)">
-
-    <textarea name="message" placeholder="Describe your project..."></textarea>
-
-    <button type="submit">Start Project →</button>
-
-  </form>
+            <button type="submit" id="submitBtn">Start Project →</button>
+        </form>
 </section>
 
 
@@ -502,7 +497,7 @@
       // Select Optiongit
 function selectOption(option) {
         // WhatsApp number
-        const whatsappNumber = '213779411291';
+        const whatsappNumber = '+213779411291';
         
         // Remove quick options after selection
         if (quickOptions) {
@@ -617,5 +612,57 @@ let botResponse = '';
 
 
     <script src="script.js"></script>
+    
+    <!-- Scroll Animation Script -->
+    <script>
+        // Scroll Animation Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animate-on-scroll class
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    </script>
 </body>
 </html>
